@@ -9,7 +9,7 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
-#include "SocketCAN.h"
+#include "lib/SocketCAN/SocketCAN.h"
 
 int main(int argc, char **argv){
     // CANソケットを開く
