@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "socketcan.h": "c"
+        "socketcan.h": "c",
+        "stdio.h": "c",
+        "receive.h": "c",
+        "pthread.h": "c"
     }
 }

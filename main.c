@@ -5,11 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
 #include "lib/SocketCAN/SocketCAN.h"
+#include "lib/ReceiveThread/Receive.h"
+#include "lib/func.h"
 
 int main(int argc, char **argv){
     // CANソケットを開く
@@ -21,41 +24,51 @@ int main(int argc, char **argv){
     }
     printf("finished.\n");
 
-    // ちょっとだけデータ投げる
+    // 受信スレッドにソケットを渡して開始
+    printf("Open Receive Thread...\n");
+    pthread_t rcvThread;
+    pthread_create(&rcvThread, NULL, (void *)receiveThread, &CANSocket);
+
+    // 文字入力を待機したのち、怒涛のcansend開始
+    char buffer[8];
+    int bytes = input(buffer, sizeof buffer);
+
+    printf("start to send can frame.\n");
+    unsigned int length = 1000;
     struct can_frame frame;
-    frame.can_id = 0x114;
-    frame.can_dlc = 5;
-    sprintf(frame.data, "AAAAA");
-    sendFrame(CANSocket, &frame);
-
-    // 受信ループ
+    for(int i = 0; i < length; i++){
+        frame.can_id = 0x114;
+        frame.can_dlc = bytes;
+        memcpy(frame.data, buffer, 8);
+        sendFrame(CANSocket, &frame);
+        usleep(10);
+    }
+    printf("%d frames has sent.\n", length);
+    
+/*
+    // 文字送信
     int endReq = 0;
-    unsigned long int received = 0;
-
-    int n = 0;
     while(!endReq){
-        // スレッドブロックして受信
-        struct can_frame frame;
-        if (readFrame(CANSocket, &frame, 10) != 0){
-            printf("timeout...");
+        printf("\nCAN >");
+        char buffer[8] = {0,0,0,0,0,0,0,0};
+        int bytes = input(buffer, sizeof buffer);
+        if(buffer[0] == '\0'){
             endReq = 1;
             continue;
         }
 
-        // フレームを整形して表示
-        char str[40];
-        getFormattedFrameStr(&frame, str);
-        printf("%s", str);
-        received++;
+        struct can_frame frame;
+        frame.can_id = 0x114;
+        frame.can_dlc = bytes;
+        memcpy(frame.data, buffer, 8);
 
-        // ID: 0123が来たら終了
-        if(frame.can_id == 0x123){
-            endReq = 1;
-        }
+        sendFrame(CANSocket, &frame);
     }
-    printf("%lu messages received.\n", received);
+    printf("REPLMode Exit.");
+*/
 
-    // ソケットを閉じる
+    void *rcvThreadStatus;
+    pthread_join(rcvThread, &rcvThreadStatus);
     closeCANSocket(CANSocket);
 	return 0;
 }

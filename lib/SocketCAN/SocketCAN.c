@@ -15,6 +15,8 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
+#include "lib/SocketCAN/SocketCAN.h"
+
 int openCANSocket(char *channel){
     int sock;
     struct sockaddr_can addr;
