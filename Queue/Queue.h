@@ -9,6 +9,9 @@
 
 /* -------- */
 #define QUEUE_SIZE 100
+#ifndef uint8_t
+    #define uint8_t unsigned char
+#endif
 
 /* -------- */
 typedef struct item {
