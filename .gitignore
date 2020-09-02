@@ -1,3 +1,7 @@
 test.c
 .DS_Store
 devnow/
+*.o
+*.so
+*.dll
+
