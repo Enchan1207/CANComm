@@ -23,7 +23,7 @@ void onReceive(struct can_frame *frame){
 // 受信スレッド
 int *receiveThread(void *socket){
     int CANSocket = *(int*)socket;
-    int receivedBytes = recvLoop(CANSocket, 0, onReceive);
+    int receivedBytes = recvLoop(CANSocket, 10, onReceive);
 
     printf("socket timeout. %d bytes received.\n", receivedBytes);
 
