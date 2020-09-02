@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include "Queue.h"
 #include "SocketCAN.h"
 #include "Receive.h"
 #include "func.h"
@@ -15,6 +16,10 @@
 #include <linux/can/raw.h>
 
 int main(int argc, char **argv){
+    Queue queue, *Q;
+    Q = &queue;
+    initQueue(Q);
+
     // CANソケットを開く
     printf("Opening can socket...");
     int CANSocket = openCANSocket("vcan1");
