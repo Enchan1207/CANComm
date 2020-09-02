@@ -3,6 +3,7 @@
         "socketcan.h": "c",
         "stdio.h": "c",
         "receive.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "raw.h": "c"
     }
 }

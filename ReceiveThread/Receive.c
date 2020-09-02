@@ -7,11 +7,11 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include "Receive.h"
+#include "SocketCAN.h"
+
 #include <linux/can.h>
 #include <linux/can/raw.h>
-
-#include "lib/ReceiveThread/Receive.h"
-#include "lib/SocketCAN/SocketCAN.h"
 
 // 受信コールバック
 void onReceive(struct can_frame *frame){

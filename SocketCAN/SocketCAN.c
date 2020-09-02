@@ -1,6 +1,8 @@
 /*
  * SocketCANユーティリティ
 */
+#include "SocketCAN.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,8 +16,6 @@
 
 #include <linux/can.h>
 #include <linux/can/raw.h>
-
-#include "lib/SocketCAN/SocketCAN.h"
 
 int openCANSocket(char *channel){
     int sock;

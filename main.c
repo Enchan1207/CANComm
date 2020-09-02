@@ -7,12 +7,12 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include "SocketCAN.h"
+#include "Receive.h"
+#include "func.h"
+
 #include <linux/can.h>
 #include <linux/can/raw.h>
-
-#include "lib/SocketCAN/SocketCAN.h"
-#include "lib/ReceiveThread/Receive.h"
-#include "lib/func.h"
 
 int main(int argc, char **argv){
     // CANソケットを開く

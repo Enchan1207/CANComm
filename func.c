@@ -3,7 +3,7 @@
 */
 #include <stdio.h>
 #include <string.h>
-#include "lib/func.h"
+#include "func.h"
 
 // コンソールからn文字受け取って配列にする
 int input(char* buffer, int bufferLen){
