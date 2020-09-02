@@ -3,11 +3,11 @@ stdVer = -std=c11
 options = $(stdVer) $(includePath)
 
 a.out: SocketCAN.dll func.c func.h Receive_Thread
-	gcc $(options) SocketCAN.dll ReceiveThread.o -o a.out
+	gcc $(includePath) SocketCAN.dll ReceiveThread.o -o a.out
 
 .PHONY: Receive_Thread
 Receive_Thread: ReceiveThread/ReceiveThread.c11
-	gcc $(options) -c ReceiveThread/ReceiveThread.c
+	gcc $(options) -c ReceiveThread/ReceiveThread.c -pthread
 
 SocketCAN.dll: SocketCAN/SocketCAN.h SocketCAN/SocketCAN.c
 	gcc $(options) -c SocketCAN/SocketCAN.c
