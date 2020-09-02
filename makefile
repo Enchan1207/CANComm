@@ -1,4 +1,4 @@
-includePath = -I QThread/ -I Queue/
+includePath = -I SocketCAN/ -I ReceiveThread/
 stdVer = -std=c11
 options = $(stdVer) $(includePath)
 
@@ -9,7 +9,7 @@ a.out: SocketCAN.dll func.c func.h Receive_Thread
 Receive_Thread: ReceiveThread/ReceiveThread.c11
 	gcc $(options) -c ReceiveThread/ReceiveThread.c
 
-SocketCAN.dll: SocketCAN/SocketCAN.h SocketCAN.c
+SocketCAN.dll: SocketCAN/SocketCAN.h SocketCAN/SocketCAN.c
 	gcc $(options) -c SocketCAN/SocketCAN.c
 	gcc $(options) SocketCAN.o -o SocketCAN.dll -shared -pthread
 
