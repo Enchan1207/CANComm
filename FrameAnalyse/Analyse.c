@@ -1,7 +1,7 @@
 /*
  * フレーム解析スレッド
 */
-#include "Analyser.h"
+#include "Analyse.h"
 
 #include <stdio.h>
 #include <stdlib.h>
