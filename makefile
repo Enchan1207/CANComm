@@ -1,13 +1,16 @@
-includePath = -I SocketCAN/ -I ReceiveThread/ -I Queue/
+includePath = -I SocketCAN/ -I ReceiveThread/ -I Queue/ -I FrameAnalyse
 
-a.out: func.o Receive.o SocketCAN.o Queue
-	gcc $(includePath) Queue.o Dump.o Item.o SocketCAN.o Receive.o func.o main.c -o a.out -pthread
+a.out: func.o Receive.o SocketCAN.o Analyse.o Queue
+	gcc $(includePath) Queue.o Dump.o Item.o SocketCAN.o Receive.o Analyse.o func.o main.c -o a.out -pthread
 
 func.o: func.c
 	gcc $(includePath) -c func.c
 
 Receive.o: ReceiveThread/Receive.c
 	gcc $(includePath) -c ReceiveThread/Receive.c -pthread
+
+Analyse.o: FrameAnalyse/Analyse.c
+	gcc $(includePath) -c FrameAnalyse/Analyse.c -pthread
 
 SocketCAN.o: SocketCAN/SocketCAN.c
 	gcc $(includePath) -c SocketCAN/SocketCAN.c
