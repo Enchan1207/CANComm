@@ -28,7 +28,7 @@ int *receiveThread(void *rxThreadConf){
         Item item;
         item.can_id = rxFrame.can_id;
         item.can_dlc = rxFrame.can_dlc;
-        item.data = rxFrame.data;
+        memcpy(item.data, rxFrame.data, 8);
         enQueue(conf.queue, &item);
         rxBytes++;
     }
