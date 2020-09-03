@@ -16,7 +16,7 @@
 #include <linux/can/raw.h>
 
 int *analyseThread(void *alThreadConf){
-    AlThreadConf conf = (AlThreadConf) alThreadConf;
+    AlThreadConf conf = *(AlThreadConf *)alThreadConf;
 
     int endReq = 0;
     char buffer[35];
