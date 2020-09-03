@@ -10,70 +10,53 @@
 #include "Queue.h"
 #include "SocketCAN.h"
 #include "Receive.h"
+#include "Analyser.h"
 #include "func.h"
 
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
 int main(int argc, char **argv){
-    Queue queue, *Q;
-    Q = &queue;
+    // CAN Rxキュー初期化
+    Queue rxQueue, *Q;
+    Q = &rxQueue;
     initQueue(Q);
 
     // CANソケットを開く
-    printf("Opening can socket...");
-    int CANSocket = openCANSocket("vcan1");
+    char *channel = "vcan1";
+    printf("Opening can socket... %s", channel);
+    int CANSocket = openCANSocket(channel);
     if(CANSocket < 0){
         perror("failed. Couldn't open CAN Socket\n");
         return 1;
     }
-    printf("finished.\n");
+    printf("OK\n");
 
-    // 受信スレッドにソケットを渡して開始
-    printf("Open Receive Thread...\n");
-    pthread_t rcvThread;
-    pthread_create(&rcvThread, NULL, (void *)receiveThread, &CANSocket);
+    // ソケットと受信キュー、タイムアウト時間を渡して、受信スレッド開始
+    RxThreadConf rxtConf;
+    rxtConf.CANSocket = CANSocket;
+    rxtConf.timeout = 10;
+    rxtConf.queue = Q;
 
-    // 文字入力を待機したのち、怒涛のcansend開始
-    char buffer[8];
-    int bytes = input(buffer, sizeof buffer);
+    pthread_t rxThread;
+    pthread_create(&rxThread, NULL, (void *)receiveThread, &rxtConf);
 
-    printf("start to send can frame.\n");
-    unsigned int length = 1000;
-    struct can_frame frame;
-    for(int i = 0; i < length; i++){
-        frame.can_id = 0x114;
-        frame.can_dlc = bytes;
-        memcpy(frame.data, buffer, 8);
-        sendFrame(CANSocket, &frame);
-        usleep(10);
-    }
-    printf("%d frames has sent.\n", length);
-    
-/*
-    // 文字送信
-    int endReq = 0;
-    while(!endReq){
-        printf("\nCAN >");
-        char buffer[8] = {0,0,0,0,0,0,0,0};
-        int bytes = input(buffer, sizeof buffer);
-        if(buffer[0] == '\0'){
-            endReq = 1;
-            continue;
-        }
+    // フレーム解析スレッドを開始
+    AlThreadConf altConf;
+    altConf.CANSocket = CANSocket;
+    altConf.timeout = 10;
+    altConf.queue = Q;
 
-        struct can_frame frame;
-        frame.can_id = 0x114;
-        frame.can_dlc = bytes;
-        memcpy(frame.data, buffer, 8);
+    pthread_t alThread;
+    pthread_create(&alThread, NULL, (void *)alThread, &altConf);
 
-        sendFrame(CANSocket, &frame);
-    }
-    printf("REPLMode Exit.");
-*/
+    void *rxThreadStat;
+    pthread_join(rxThread, &rxThreadStat);
+    int rxBytes = *(int *)rxThreadStat;
+    printf("%d bytes received.\n", rxBytes);
 
-    void *rcvThreadStatus;
-    pthread_join(rcvThread, &rcvThreadStatus);
+    // 終了処理
     closeCANSocket(CANSocket);
+    deinitQueue(Q);
 	return 0;
 }

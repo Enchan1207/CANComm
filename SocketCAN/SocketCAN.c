@@ -79,23 +79,17 @@ int readFrame(int CANSocket, struct can_frame *frame, int timeout){
     int n = select(CANSocket + 1, &readfds, NULL, NULL, timeoutVal);
 
     if (n <= 0) {
-        perror("Socket timeout.\n");
-        return -1;
+        return -1; //timeout
     }
 
     if (FD_ISSET(CANSocket, &readfds)) {
-        // 受信バイト数を取得
+        // 受信バイト数を取得し、ベリファイチェック
         int nbytes = recv(CANSocket, &receive, sizeof(struct can_frame), 0);
-        
-        // 受信データ量がcan_frameのサイズに合っていなければ、不正CANフレームとして処理
         if (nbytes < sizeof(struct can_frame)) {
-            perror("incomplete CAN frame\n");
-            return 1;
+            return 1; // invalid CAN frame
         }
 
-        // ポインタに値を渡す
         *frame = receive;
-
         return 0;
     }
 }

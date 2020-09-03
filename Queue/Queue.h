@@ -8,14 +8,15 @@
 #include <stdlib.h>
 
 /* -------- */
-#define QUEUE_SIZE 100
+#define QUEUE_SIZE 10000
 #ifndef uint8_t
     #define uint8_t unsigned char
 #endif
 
 /* -------- */
 typedef struct item {
-    uint8_t id;
+    unsigned long can_id;
+    uint8_t can_dlc;
     uint8_t data[8];
 } Item;
 

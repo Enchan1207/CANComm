@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/SocketCAN",
                 "${workspaceFolder}/ReceiveThread",
-                "${workspaceFolder}/Queue"
+                "${workspaceFolder}/Queue",
+                "${workspaceFolder}/FrameAnalyse"
             ],
             "defines": [],
             "macFrameworkPath": [

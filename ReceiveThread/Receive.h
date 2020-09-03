@@ -4,12 +4,20 @@
 #ifndef RECEIVE_H
 #define RECEIVE_H
 
+/* -------- */
 #include <linux/can.h>
 #include <linux/can/raw.h>
 #include <pthread.h>
+#include "Queue.h"
 
-int recvLoop(int CANSocket,int timeout, void (*callback)(struct can_frame *frame));
-void onReceive(struct can_frame *frame);
-int *receiveThread(void *socket);
+/* -------- */
+typedef struct rxthreadconf {
+    int CANSocket;
+    int timeout;
+    Queue* queue;
+} RxThreadConf;
+
+/* -------- */
+int *receiveThread(void *rxThreadConf);
 
 #endif
