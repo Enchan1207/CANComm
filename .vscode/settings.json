@@ -5,5 +5,13 @@
         "receive.h": "c",
         "pthread.h": "c",
         "raw.h": "c"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*.o": true
     }
 }

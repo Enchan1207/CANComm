@@ -14,6 +14,8 @@
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 
+#include "Queue.h"
+
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
@@ -27,7 +29,7 @@ int openCANSocket(char *channel){
 		perror("Socket error");
 		return -1;
 	}
-	strcpy(ifr.ifr_name, "vcan1");
+	strcpy(ifr.ifr_name, channel);
 	ioctl(sock, SIOCGIFINDEX, &ifr);
 
 	memset(&addr, 0, sizeof(addr));
