@@ -26,7 +26,7 @@ int *analyseThread(void *alThreadConf){
 
         memset(buffer, '\0', 35);
         dumpItem(&item, buffer);
-        printf("%s", buffer);
+        printf("%s\n", buffer);
     }
     pthread_exit(NULL);
 }
