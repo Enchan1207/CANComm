@@ -22,7 +22,7 @@ int *analyseThread(void *alThreadConf){
     char buffer[35];
     while(!endReq){
         Item item;
-        deQueue(conf.queue, &item);
+        deQueue(conf.rxqueue, &item);
 
         memset(buffer, '\0', 35);
         dumpItem(&item, buffer);
