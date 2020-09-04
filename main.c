@@ -24,7 +24,7 @@ int main(int argc, char **argv){
 
     // CANソケットを開く
     char *channel = "vcan1";
-    printf("Opening can socket... %s", channel);
+    printf("Opening can socket... %s\n", channel);
     int CANSocket = openCANSocket(channel);
     if(CANSocket < 0){
         perror("failed. Couldn't open CAN Socket\n");
