@@ -45,7 +45,7 @@ int main(int argc, char **argv){
     AlThreadConf altConf;
     altConf.CANSocket = CANSocket;
     altConf.timeout = 10;
-    altConf.queue = Q;
+    altConf.rxQueue = Q;
 
     pthread_t alThread;
     pthread_create(&alThread, NULL, (void *)alThread, &altConf);
