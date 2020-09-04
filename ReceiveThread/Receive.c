@@ -14,7 +14,7 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
-int *receiveThread(void *rxThreadConf){
+void *receiveThread(void *rxThreadConf){
     RxThreadConf conf = *(RxThreadConf *)rxThreadConf;
 
     int rxBytes = 0;

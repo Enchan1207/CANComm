@@ -18,6 +18,6 @@ typedef struct rxthreadconf {
 } RxThreadConf;
 
 /* -------- */
-int *receiveThread(void *rxThreadConf);
+void *receiveThread(void *rxThreadConf);
 
 #endif

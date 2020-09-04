@@ -48,7 +48,7 @@ int main(int argc, char **argv){
     altConf.rxQueue = Q;
 
     pthread_t alThread;
-    pthread_create(&alThread, NULL, (void *)alThread, &altConf);
+    pthread_create(&alThread, NULL, (void *)analyseThread, &altConf);
 
     void *rxThreadStat;
     pthread_join(rxThread, &rxThreadStat);
