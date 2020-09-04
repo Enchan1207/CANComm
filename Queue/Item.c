@@ -6,12 +6,12 @@
 
 // アイテム初期化
 void initItem(Item *item){
-    item->id = 0;
+    item->can_id = 0;
     memset(item->data, 0, 8);
 }
 
 // 値を指定して初期化
 void setItem(Item *item, uint8_t id, uint8_t *data){
-    item->id = id;
+    item->can_id = id;
     memcpy(item->data, data, 8);
 }

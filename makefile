@@ -1,6 +1,6 @@
 includePath = -I SocketCAN/ -I ReceiveThread/ -I Queue/ -I FrameAnalyse
 
-a.out: func.o Receive.o SocketCAN.o Analyse.o Queue
+a.out: func.o Receive.o SocketCAN.o Analyse.o libQueue
 	gcc $(includePath) Queue.o Dump.o Item.o SocketCAN.o Receive.o Analyse.o func.o main.c -o a.out -pthread
 
 func.o: func.c
@@ -15,7 +15,8 @@ Analyse.o: FrameAnalyse/Analyse.c
 SocketCAN.o: SocketCAN/SocketCAN.c
 	gcc $(includePath) -c SocketCAN/SocketCAN.c
 
-Queue: Queue/Queue.c Queue/Dump.c Queue/Item.c Queue/Queue.h
+.PHONY: libQueue
+libQueue: Queue/Queue.c Queue/Dump.c Queue/Item.c Queue/Queue.h
 	gcc $(includePath) -c Queue/Queue.c -std=c11 -pthread
 	gcc $(includePath) -c Queue/Dump.c -std=c11
 	gcc $(includePath) -c Queue/Item.c -std=c11
