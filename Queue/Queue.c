@@ -12,10 +12,11 @@
 #define NDEBUG
 
 // キュー初期化
-void initQueue(Queue *queue){
+void initQueue(Queue *queue, int timeout){
     for(int i = 0; i < QUEUE_SIZE; i++){
         initItem(&(queue->data[i]));
     }
+    queue->timeout.tv_sec = timeout;
     queue->first = 0;
     queue->last = 0;
     queue->length = 0;
@@ -44,7 +45,11 @@ int enQueue(Queue *queue, Item *item){
     // キューはいっぱい?
     while(queue->length == QUEUE_SIZE){
         printf("waiting deQueue....");
-        int rst = pthread_cond_wait(&queue->isNotFull, &queue->mutex);
+        int rst = pthread_cond_timedwait(
+            &queue->isNotFull,
+            &queue->mutex,
+            &queue->timeout
+        );
         assert(rst == 0);
     }
 
@@ -66,7 +71,11 @@ int deQueue(Queue *queue, Item *item){
     // キューにデータはある?
     while (queue->length == 0) {
         printf("waiting enQueue....");
-        int rst = pthread_cond_wait(&queue->isNotEmpty, &queue->mutex);
+        int rst = pthread_cond_timedwait(
+            &queue->isNotEmpty,
+            &queue->mutex,
+            &queue->timeout
+        );
         assert(rst == 0);
     }
 

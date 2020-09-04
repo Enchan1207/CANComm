@@ -20,7 +20,7 @@ int main(int argc, char **argv){
     // CAN Rxキュー初期化
     Queue rxQueue, *Q;
     Q = &rxQueue;
-    initQueue(Q);
+    initQueue(Q, 10);
 
     // CANソケットを開く
     char *channel = "vcan1";

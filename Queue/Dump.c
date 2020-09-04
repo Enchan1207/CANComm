@@ -19,7 +19,7 @@ void dumpQueue(Queue *queue, char* buffer){
 void dumpItem(Item *item, char* buffer){
     char dataBuf[30];
     dumpu8Array(item->data, item->can_dlc, dataBuf);
-    sprintf(buffer, "%02X: %s", item->can_id, dataBuf);
+    sprintf(buffer, "%02lX: %s", item->can_id, dataBuf);
 }
 
 // require: max 25 bytes

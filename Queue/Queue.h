@@ -6,6 +6,7 @@
 
 #include <pthread.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 /* -------- */
 #define QUEUE_SIZE 10000
@@ -29,10 +30,12 @@ typedef struct queue {
     pthread_mutex_t mutex;
     pthread_cond_t isNotEmpty;
     pthread_cond_t isNotFull;
+
+    struct timespec timeout;
 } Queue;
 
 /* -------- */
-void initQueue(Queue *queue);
+void initQueue(Queue *queue, int timeout);
 int deinitQueue(Queue *queue);
 int enQueue(Queue *queue, Item *item);
 int deQueue(Queue *queue, Item *item);
