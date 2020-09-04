@@ -43,6 +43,7 @@ int enQueue(Queue *queue, Item *item){
 
     // キューはいっぱい?
     while(queue->length == QUEUE_SIZE){
+        printf("waiting deQueue....");
         int rst = pthread_cond_wait(&queue->isNotFull, &queue->mutex);
         assert(rst == 0);
     }
@@ -64,6 +65,7 @@ int deQueue(Queue *queue, Item *item){
 
     // キューにデータはある?
     while (queue->length == 0) {
+        printf("waiting enQueue....");
         int rst = pthread_cond_wait(&queue->isNotEmpty, &queue->mutex);
         assert(rst == 0);
     }
